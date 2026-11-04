@@ -157,3 +157,55 @@ main:focus,main section:focus{outline:none}
   .tech-panel,.tech-panel-languages,.tech-panel-robotics,.tech-panel-boards,.tech-panel-ai-tools,.tech-panel-ai-libraries{grid-column:auto;padding:10px}
   .tech-panel-ai-libraries{grid-column:1/-1}
 }
+
+/* Evidence-led project collage: source images and explanatory visuals stay distinct. */
+.secondary-projects{margin-top:52px;padding-top:38px}
+.secondary-group{margin-top:30px}
+.secondary-group h4{display:flex;align-items:baseline;gap:16px;font-size:18px;margin:0 0 17px;letter-spacing:-.025em}
+.secondary-group h4>span{font:500 9px/1.5 system-ui,sans-serif;letter-spacing:.1em;color:#61717e}
+.project-collage{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:18px}
+.collage-card{grid-column:span 6;min-width:0;overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column}
+.academic-collage .collage-hardware,.academic-collage .collage-can{grid-column:span 7}
+.academic-collage .collage-denoising,.academic-collage .collage-handshake{grid-column:span 5}
+.collage-media{margin:0;border-bottom:1px solid var(--line);background:#f0f3f7}
+.collage-media>div{height:216px;min-width:0}
+.collage-media figcaption{padding:8px 14px;font-size:10px;line-height:1.6;color:#506071;background:#f8fafc;border-top:1px solid #e2e7ec}
+.collage-pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;padding:10px;background:#eaf0f0;align-items:center}
+.collage-pair img{width:100%;height:auto;border:1px solid #d6dfdf;border-radius:4px}
+.denoising-evidence{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:12px;background:#edf3fc}
+.denoising-evidence img:first-child{height:63px;width:auto;max-width:100%;object-fit:contain}
+.denoising-evidence img:last-child{height:118px;width:auto;max-width:100%;object-fit:contain}
+.collage-copy{padding:21px 24px;display:flex;flex-direction:column;flex:1;min-width:0}
+.collage-copy .project-context{font-size:10px;font-weight:600;color:var(--accent);margin-bottom:8px}
+.collage-copy h5{font-size:21px;line-height:1.4;letter-spacing:-.035em;margin:0 0 10px}
+.collage-copy h5+p{font-size:13px;line-height:1.85}
+.collage-foot{display:flex;flex-direction:column;gap:6px;margin-top:15px;font-size:10px;color:#465a6e}
+.collage-foot>span:first-child{font-weight:600}
+.collage-foot .evidence-note{font-size:10px;color:#61717e}
+.code-window{background:#192c43;color:#e2edf7;padding:18px 22px;overflow:hidden}
+.code-window-label{display:block;font:600 10px/1.5 system-ui,sans-serif;letter-spacing:.08em;color:#b6cee8;margin-bottom:12px}
+.code-window pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-all;font:11px/1.75 ui-monospace,SFMono-Regular,Consolas,monospace}
+.code-muted{color:#99b4d0}
+.concept-visual{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:19px;padding:24px;background:#edf5f2;color:#2f5f57}
+.concept-overline{font:600 9px/1.5 system-ui,sans-serif;letter-spacing:.15em;color:#4b6c66}
+.can-flow{display:flex;align-items:center;justify-content:center;width:100%;max-width:340px}
+.concept-node{display:flex;align-items:center;flex-direction:column;gap:5px;font-size:12px;font-weight:600;background:#fff;border:1px solid #c4dad1;border-radius:9px;padding:13px 20px;min-width:98px}
+.concept-node>b{font:500 27px/1 system-ui,sans-serif;color:#3c7b69}
+.bus-line{display:flex;flex:1;min-width:22px;flex-direction:column;gap:9px}.bus-line>i{height:2px;background:#7da997}
+.concept-caption{font-size:10px;color:#4b6c66}
+.product-overview{display:flex;gap:25px;align-items:center;justify-content:center;padding:20px;background:#eff3fa}
+.product-overview>img{width:158px;height:158px;border:1px solid #dce3ef;border-radius:16px;object-fit:contain}
+.product-steps{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:#425c7c;font-weight:600}
+.product-steps>i{font-style:normal;font-weight:400;color:#6984a3}
+.store-concept{background:#f4f0f8;color:#5f4b7c}
+.store-concept .concept-overline,.store-concept .concept-caption{color:#6d5b84}
+.store-modules{display:flex;align-items:center;justify-content:center;gap:12px;width:100%}
+.store-modules>span{display:flex;flex-direction:column;align-items:center;gap:10px;background:#fff;border:1px solid #dbd1e7;border-radius:10px;padding:18px 13px;font-size:11px;min-width:86px}
+.store-modules b{font:400 28px/1 system-ui,sans-serif;color:#8b6fa8}
+.collage-links{display:flex;flex-wrap:wrap;gap:12px 22px;margin-top:17px;font-size:11px;font-weight:600;color:var(--accent)}
+.collage-links a{padding-block:4px}
+.collage-source-note{font-size:11px;line-height:1.85;margin-top:17px;color:#61717e;max-width:850px}
+@media(min-width:601px) and (max-width:900px){.academic-collage .collage-card{grid-column:span 6}.collage-copy{padding:20px}.collage-pair{grid-template-columns:1fr 1fr;gap:5px;padding:7px}.product-overview{gap:15px;padding:15px}.product-overview>img{width:110px;height:110px}.product-steps{font-size:10px}.store-modules{gap:7px}.store-modules>span{min-width:0;padding:15px 9px;font-size:10px}.code-window{padding:18px 16px}.code-window pre{font-size:10px}.concept-node{min-width:80px;padding:12px 13px}}
+@media(max-width:600px){.secondary-projects{margin-top:35px;padding-top:30px}.secondary-heading h3{font-size:23px}.secondary-group h4{font-size:17px;gap:13px}.project-collage{grid-template-columns:1fr;gap:17px}.project-collage .collage-card{grid-column:auto}.collage-copy{padding:20px}.collage-copy h5{font-size:21px}.collage-media>div{height:200px}.collage-media figcaption{font-size:9px;padding:8px 12px}.collage-pair{gap:6px;padding:9px}.code-window{padding:18px}.code-window pre{font-size:10px}.concept-visual{padding:21px;gap:16px}.concept-node{min-width:87px;padding:12px 16px}.product-overview{gap:18px;padding:15px}.product-overview>img{width:128px;height:128px}.product-steps{font-size:10px}.store-modules{gap:8px}.store-modules>span{min-width:0;flex:1;padding:16px 8px;font-size:10px}.collage-source-note{font-size:10px}.profile-intro h1{font-size:clamp(27px,7.3vw,38px)}}
+@media(max-width:360px){.product-overview{gap:14px}.product-overview>img{width:112px;height:112px}.collage-copy{padding:18px}.collage-media figcaption{font-size:9px}.code-window pre{font-size:9px}}
+@media print{.project-collage{grid-template-columns:1fr 1fr;gap:5mm}.project-collage .collage-card{grid-column:auto;break-inside:avoid}.collage-media>div{height:42mm}.collage-copy{padding:4mm}.collage-copy h5{font-size:13pt}.collage-copy h5+p{font-size:9pt}.collage-media{print-color-adjust:exact}.collage-media figcaption,.collage-source-note{font-size:7pt}}
