@@ -225,16 +225,15 @@ main:focus,main section:focus{outline:none}
 .denoising-preview img{display:block;width:100%;height:100%;object-fit:contain}
 @media(max-width:600px){.denoising-preview{height:auto;aspect-ratio:595/447}}
 
-/* Selected relevant coursework, not a full transcript or an average. */
-.related-coursework{margin-top:28px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:28px}
-.coursework-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px 24px;margin-bottom:20px}
-.coursework-heading h3{font-size:21px;letter-spacing:-.03em}
-.coursework-heading p{font-size:12px;color:var(--muted)}
-.coursework-list{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0;padding:0}
-.coursework-list li{display:flex;align-items:center;justify-content:space-between;gap:14px;min-width:0;padding:17px 16px;background:#f7f9fc;border:1px solid #e5eaf0;border-radius:7px}
-.course-name{min-width:0;font-size:13px;font-weight:500;line-height:1.65;word-break:keep-all;overflow-wrap:anywhere}
-.course-name small{display:block;font-size:10px;font-weight:400;color:var(--muted);margin-top:3px}
-.course-grade{flex:0 0 33px;text-align:center;font-size:18px;line-height:1.4;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
-@media(max-width:900px){.coursework-list{grid-template-columns:repeat(2,minmax(0,1fr))}.coursework-heading{display:block}.coursework-heading p{margin-top:7px}}
-@media(max-width:600px){.related-coursework{padding:21px;margin-top:20px}.coursework-heading h3{font-size:20px}.coursework-list{grid-template-columns:1fr;gap:9px}.coursework-list li{padding:15px 14px}.course-name{font-size:12px}.course-grade{font-size:17px}}
-@media print{.related-coursework{padding:5mm;break-inside:avoid}.coursework-list{grid-template-columns:repeat(3,minmax(0,1fr));gap:2mm}.coursework-list li{padding:3mm}.course-name{font-size:9pt}.course-grade{font-size:11pt}}
+/* Selected relevant coursework, ordered by grade and compactly presented. */
+.related-coursework{margin-top:20px;border:1px solid var(--line);border-radius:9px;background:#fff;padding:20px}
+.coursework-heading{display:flex;align-items:baseline;justify-content:space-between;gap:10px 20px;margin-bottom:14px}
+.coursework-heading h3{font-size:19px;letter-spacing:-.03em}
+.coursework-heading p{font-size:11px;color:var(--muted)}
+.coursework-list{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0;padding:0}
+.coursework-list li{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0;padding:10px 12px;background:#f7f9fc;border:1px solid #e5eaf0;border-radius:6px}
+.course-name{min-width:0;font-size:12px;font-weight:500;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
+.course-grade{flex:0 0 28px;text-align:center;font-size:16px;line-height:1.4;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+@media(max-width:900px){.coursework-list{grid-template-columns:repeat(2,minmax(0,1fr))}.coursework-heading{display:block}.coursework-heading p{margin-top:5px}}
+@media(max-width:600px){.related-coursework{padding:16px;margin-top:18px}.coursework-heading h3{font-size:18px}.coursework-list{grid-template-columns:1fr;gap:6px}.coursework-list li{padding:9px 11px}.course-name{font-size:12px}.course-grade{font-size:15px}}
+@media print{.related-coursework{padding:4mm;break-inside:avoid}.coursework-list{grid-template-columns:repeat(3,minmax(0,1fr));gap:2mm}.coursework-list li{padding:2mm}.course-name{font-size:9pt}.course-grade{font-size:10pt}}
