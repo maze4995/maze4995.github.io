@@ -101,3 +101,9 @@ main:focus,main section:focus{outline:none}
 @media(max-width:600px){.wrap{width:calc(100% - 40px)}.profile-intro h1{font-size:clamp(29px,7.5vw,38px)}.section-heading>*{min-width:0}.contact-panel{gap:22px}.contact-panel>a{min-width:0}.profile-signature>p{min-width:0}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
 @media print{html{scroll-padding-top:0;scroll-behavior:auto}body>header{backdrop-filter:none}.mobile-menu{display:none}}
+/* Paired project evidence, kept uncropped at every viewport. */
+.featured-list .card-image.card-image-gallery{display:grid;grid-template-columns:minmax(0,1fr);align-content:center;gap:16px;height:auto;min-height:0;aspect-ratio:auto;padding:18px;background:#f0f3f5}
+.card-image-gallery .project-image-panel{display:block;min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:6px;background:#fff}
+.featured-list .card-image-gallery img{display:block;width:100%;height:auto;object-fit:contain;background:#fff}
+.project-image-caption{display:block;padding:9px 12px;border-top:1px solid var(--line);color:#465868;font-size:11px;font-weight:600;line-height:1.5}
+@media(max-width:600px){.featured-list .card-image.card-image-gallery{padding:14px;gap:12px}}
