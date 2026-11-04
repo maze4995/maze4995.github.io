@@ -109,3 +109,51 @@ main:focus,main section:focus{outline:none}
 @media(max-width:600px){.featured-list .card-image.card-image-gallery{padding:14px;gap:12px}}
 
 .skill-concept{font-size:10px;color:#465868}.skill-concept>span{border:1px solid #a6b4bf;border-radius:5px;padding:3px 6px;background:#fff}
+
+/* Dense skill groups: compact tiles with no unused grid slots. */
+#stack .section-heading{margin-bottom:20px}
+.experience-legend{gap:8px 18px;margin:0 0 18px}
+.tech-panels{grid-template-columns:repeat(12,minmax(0,1fr));gap:12px;align-items:stretch}
+.tech-panel{padding:16px;border-radius:12px}
+.tech-panel-languages,.tech-panel-boards{grid-column:span 6}
+.tech-panel-robotics{grid-column:span 3}
+.tech-panel-ai-tools{grid-column:span 3}
+.tech-panel-ai-libraries{grid-column:span 6}
+.tech-panel>header{gap:9px;margin-bottom:12px}
+.tech-category-mark{width:28px;height:28px;border-radius:7px;font-size:16px}
+.tech-panel h3,.tech-panel-ai-libraries h3{font-size:14px;line-height:1.4;min-width:0}
+.tech-tiles{grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.tech-panel-boards .tech-tiles{grid-template-columns:repeat(5,minmax(0,1fr))}
+.tech-panel-robotics .tech-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tech-panel-ai-tools .tech-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+.tech-panel-ai-libraries .tech-tiles{grid-template-columns:repeat(6,minmax(0,1fr))}
+.tech-tile{padding:10px 4px 8px;border-radius:8px}
+.tech-tile img{width:28px;height:28px;margin-bottom:6px}
+.tech-tile h4{font-size:10.5px;line-height:1.5;margin-bottom:4px}
+.skill-level{min-height:20px;gap:4px}
+.skill-dots{gap:4px}
+.skill-dots i{width:9px;height:9px}
+.skill-concept>span{padding:2px 4px}
+@media(max-width:1000px){
+  .tech-panels{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .tech-panel,.tech-panel-languages,.tech-panel-robotics,.tech-panel-boards,.tech-panel-ai-tools{grid-column:span 3}
+  .tech-panel-ai-libraries{grid-column:span 6}
+  .tech-panel-languages .tech-tiles,.tech-panel-boards .tech-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .tech-panel-ai-tools .tech-tiles{grid-template-columns:repeat(2,minmax(0,90px))}
+}
+@media(max-width:700px){
+  .tech-panels{grid-template-columns:minmax(0,1fr);gap:10px}
+  .tech-panel,.tech-panel-languages,.tech-panel-robotics,.tech-panel-boards,.tech-panel-ai-tools,.tech-panel-ai-libraries{grid-column:auto;padding:14px}
+  .tech-panel>header{margin-bottom:10px}
+  .tech-panel-ai-tools .tech-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tech-panel-ai-libraries .tech-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .tech-tile img{width:27px;height:27px}
+}
+@media(max-width:360px){
+  .tech-tiles,.tech-panel-boards .tech-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media print{
+  .tech-panels{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .tech-panel,.tech-panel-languages,.tech-panel-robotics,.tech-panel-boards,.tech-panel-ai-tools,.tech-panel-ai-libraries{grid-column:auto;padding:10px}
+  .tech-panel-ai-libraries{grid-column:1/-1}
+}

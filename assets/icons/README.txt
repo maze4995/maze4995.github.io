@@ -6,3 +6,9 @@ NumPy: Simple Icons (CC0). PyWavelets is represented by an original wavelet sche
 Gazebo: Devicon gazebo-original.svg (Devicon, MIT; trademark belongs to the Gazebo project).
 Source: https://github.com/devicons/devicon/blob/master/icons/gazebo/gazebo-original.svg
 RTOS: original generic microchip-and-clock symbol; represents real-time operating-system concepts, not a specific product.
+
+MATLAB and Raspberry Pi: Devicon original product marks.
+Sources: https://github.com/devicons/devicon/blob/master/icons/matlab/matlab-original.svg and https://github.com/devicons/devicon/blob/master/icons/raspberrypi/raspberrypi-original.svg
+Simulink: MathWorks product mark, unchanged, via the Icons-for-MATLAB library (MathWorks website icons collection).
+Source: https://github.com/roslovets/Icons-for-MATLAB/blob/master/icons_library/MathWorks/mw-simulink.png
+MATLAB and Simulink are registered trademarks of The MathWorks, Inc. All logos are used solely to identify the named technologies; no endorsement is implied.
