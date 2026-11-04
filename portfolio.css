@@ -38,18 +38,29 @@ html{scroll-behavior:smooth;scroll-padding-top:calc(var(--header-height,75px) + 
 
 .award-merit{font-size:14px;white-space:nowrap}@media(max-width:600px){.award-merit{font-size:10px}}
 
-/* Reference-inspired category panels with evidence-based experience labels. */
+/* Compact technology cards. Experience symbols describe use, not proficiency scores. */
 .tech-panel>header{position:static;top:auto;z-index:auto;border:0;background:transparent}
-.experience-legend{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;margin:-4px 0 24px;padding:16px 20px;background:#f6f5f2;border:1px solid #e7e5e0;border-radius:12px}
-.experience-legend>span{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;white-space:nowrap}.experience-legend p{font-size:11px;line-height:1.7;margin:0;color:var(--muted)}
-.experience-legend i,.experience-label i{width:5px;height:5px;border-radius:50%;background:var(--accent);display:inline-block;flex:none}
-.tech-panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.tech-panel{border:1px solid #e2e3e6;border-radius:16px;background:#fff;padding:24px;display:flex;flex-direction:column;min-width:0}
-.tech-panel>header{display:flex;align-items:center;gap:12px;margin-bottom:22px}.tech-category-mark{display:grid;place-items:center;width:43px;height:43px;background:#f7e9df;color:#8f5e3b;border-radius:11px;font-size:21px;font-weight:650}.tech-panel header p{margin:0 0 3px;font-size:9px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}.tech-panel h3{margin:0;font-size:18px;letter-spacing:-.02em}
-.tech-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;padding:0;margin:0;list-style:none}.tech-tile{border:1px solid #e8e8ea;background:#f8f8f9;border-radius:11px;min-width:0;padding:18px 5px 13px;text-align:center;display:flex;flex-direction:column;align-items:center}.tech-tile img{height:35px;width:35px;object-fit:contain;display:block;margin-bottom:13px}.tech-tile h4{font-size:11px;line-height:1.5;margin:0 0 10px;letter-spacing:-.02em;white-space:nowrap}.experience-label{display:flex;align-items:center;justify-content:center;gap:4px;font-size:9px;color:#5e6771;line-height:1.4;white-space:nowrap}
-.tech-context{margin-top:auto;padding-top:20px}.tech-context p{font-size:12px;line-height:1.85;margin:0 0 11px;color:var(--muted)}.tech-context a{font-size:11px;color:var(--accent);font-weight:600}.tech-context a:hover{text-decoration:underline}
-@media(max-width:1050px){.tech-panels{gap:16px}.tech-panel{padding:19px}.tech-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.tech-tile{padding:17px 8px 13px}.tech-tile h4{font-size:12px}.experience-label{font-size:10px}}
-@media(max-width:600px){.tech-panels{grid-template-columns:1fr;gap:18px}.tech-panel{padding:20px;border-radius:14px}.tech-panel>header{margin-bottom:18px}.tech-panel h3{font-size:18px}.tech-tiles{gap:10px}.tech-tile{padding:20px 8px 15px}.tech-tile img{height:35px;width:35px}.tech-tile h4{font-size:12px}.experience-legend{padding:15px;gap:10px 14px}.experience-legend>span{font-size:10px}.experience-legend p{font-size:11px}.tech-context{padding-top:18px}}
-@media print{.tech-panel{break-inside:avoid}.tech-panels{grid-template-columns:1fr 1fr}.tech-tiles{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.experience-legend{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;margin:-4px 0 24px}
+.experience-legend>span{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:500;white-space:nowrap;color:#47535f}
+.experience-legend svg{width:17px;height:17px;flex:none}
+.tech-panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.tech-panel{border:1px solid #e2e3e6;border-radius:16px;background:#fff;padding:24px;min-width:0}
+.tech-panel>header{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.tech-category-mark{display:grid;place-items:center;width:43px;height:43px;background:#f7e9df;color:#8f5e3b;border-radius:11px;font-size:21px;font-weight:650;flex:none}
+.tech-panel h3{margin:0;font-size:18px;letter-spacing:-.02em}
+.tech-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;padding:0;margin:0;list-style:none}
+.tech-panel-ai .tech-tiles{grid-template-columns:repeat(5,minmax(0,1fr))}
+.tech-tile{border:1px solid #e8e8ea;background:#f8f8f9;border-radius:11px;min-width:0;padding:20px 5px 14px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.tech-tile img{height:35px;width:35px;object-fit:contain;display:block;margin-bottom:13px}
+.tech-tile h4{font-size:11px;line-height:1.5;margin:0 0 10px;letter-spacing:-.02em;white-space:nowrap}
+.experience-icon{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#e9eef9;color:#315b9b}
+.experience-icon svg{height:16px;width:16px}
+.experience-course{background:#f3eddf;color:#855c29}.experience-collab{background:#e9e6f5;color:#66528e}.experience-listed{background:#edf0f1;color:#53616c}
+@media(max-width:1100px){.tech-panels{gap:16px}.tech-panel{padding:19px}.tech-tiles,.tech-panel-ai .tech-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}.tech-tile{padding:18px 5px 13px}.tech-tile h4{font-size:11px}}
+@media(max-width:700px){.tech-panels{grid-template-columns:1fr;gap:18px}.tech-panel{padding:20px;border-radius:14px}.tech-panel>header{margin-bottom:18px}.tech-tiles,.tech-panel-ai .tech-tiles{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:460px){.tech-tiles,.tech-panel-ai .tech-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}.experience-legend{gap:10px 14px}.experience-legend>span{font-size:10px}}
+@media(max-width:360px){.tech-tiles,.tech-panel-ai .tech-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media print{.tech-panel{break-inside:avoid}.tech-panels{grid-template-columns:1fr 1fr}.tech-tiles,.tech-panel-ai .tech-tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
 .contact-panel{flex-wrap:wrap}.contact-panel>div{flex:1 1 100%}.contact-email strong{overflow-wrap:anywhere;font-size:clamp(14px,2vw,20px)}
 
