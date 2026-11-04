@@ -1,0 +1,1 @@
+Brand icons: Simple Icons, https://github.com/simple-icons/simple-icons (CC0). Each brand remains the property of its respective owner. chip/crop/network/flight icons are original schematic symbols, not official brand logos.
