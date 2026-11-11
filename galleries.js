@@ -9,6 +9,7 @@
     if (slides.length < 2) return;
     const track = slider.querySelector('.project-slides');
     const status = slider.querySelector('.slider-status');
+    const thumbnails = [...slider.querySelectorAll('.photo-thumbnail')];
     const announcement = slider.querySelector('.slider-announcement');
     const toggle = slider.querySelector('.slider-toggle');
     let index = 0;
@@ -36,19 +37,26 @@
     };
     const show = (next, manual = false) => {
       const restoreFocus = slides.some(slide => slide.contains(document.activeElement));
+      const thumbnailFocus = thumbnails.includes(document.activeElement);
       index = (next + slides.length) % slides.length;
       slides.forEach((slide, i) => { slide.hidden = i !== index; });
+      thumbnails.forEach((button, i) => {
+        if (i === index) button.setAttribute('aria-current', 'true');
+        else button.removeAttribute('aria-current');
+      });
       status.textContent = `${index + 1} / ${slides.length}`;
       slider.dataset.slideIndex = String(index);
       updateCaptionHeight();
       if (manual) announcement.textContent = `사진 ${index + 1} / ${slides.length}: ${slides[index].querySelector('.project-image-caption').textContent}`;
       if (restoreFocus) slides[index].focus({ preventScroll: true });
+      else if (thumbnailFocus) thumbnails[index].focus({ preventScroll: true });
       schedule();
     };
 
     slider.classList.add('is-enhanced');
     updateToggle();
     show(0);
+    thumbnails.forEach((button, i) => button.addEventListener('click', () => show(i, true)));
     slider.querySelector('.slider-prev').addEventListener('click', () => show(index - 1, true));
     slider.querySelector('.slider-next').addEventListener('click', () => show(index + 1, true));
     toggle.addEventListener('click', () => {
@@ -108,58 +116,74 @@
     }
   });
 
-  document.querySelectorAll('.project-rail').forEach(rail => {
-    const cards = [...rail.querySelectorAll(':scope > .collage-card')];
-    const controls = document.querySelector(`[data-rail="${rail.id}"]`);
-    if (!controls || cards.length < 2) return;
-    const prev = controls.querySelector('.rail-prev');
-    const next = controls.querySelector('.rail-next');
-    const status = controls.querySelector('.rail-status');
+  document.querySelectorAll('.project-gallery').forEach(gallery => {
+    const track = gallery.querySelector('.project-media-track');
+    const slides = [...gallery.querySelectorAll('.project-media-slide')];
+    const details = [...gallery.querySelectorAll('.project-detail')];
+    const thumbnails = [...gallery.querySelectorAll('.project-thumbnail')];
+    const prev = gallery.querySelector('.gallery-prev');
+    const next = gallery.querySelector('.gallery-next');
+    const status = gallery.querySelector('.gallery-status');
+    if (!slides.length || slides.length !== details.length) return;
     let index = 0;
-    let settling;
-    const position = card => card.getBoundingClientRect().left - rail.getBoundingClientRect().left + rail.scrollLeft;
-    const update = () => {
+    let gesture = null;
+    let suppressClickUntil = 0;
+    const measureCaption = () => {
+      const caption = slides[index].querySelector('figcaption');
+      gallery.style.setProperty('--gallery-caption-height', `${caption?.getBoundingClientRect().height || 38}px`);
+    };
+    const show = target => {
+      const restoreMediaFocus = slides.some(slide => slide.contains(document.activeElement));
+      const restoreDetailFocus = details.some(detail => detail.contains(document.activeElement));
+      const thumbnailFocus = thumbnails.includes(document.activeElement);
+      index = Math.max(0, Math.min(slides.length - 1, target));
+      slides.forEach((slide, i) => { slide.hidden = i !== index; });
+      details.forEach((detail, i) => { detail.hidden = i !== index; });
+      thumbnails.forEach((button, i) => {
+        if (i === index) button.setAttribute('aria-current', 'true');
+        else button.removeAttribute('aria-current');
+      });
       prev.disabled = index === 0;
-      next.disabled = index === cards.length - 1;
-      status.textContent = `${index + 1} / ${cards.length}`;
-      rail.dataset.slideIndex = String(index);
+      next.disabled = index === slides.length - 1;
+      status.textContent = `${index + 1} / ${slides.length}`;
+      gallery.dataset.slideIndex = String(index);
+      measureCaption();
+      if (restoreMediaFocus || restoreDetailFocus) track.focus({ preventScroll: true });
+      else if (thumbnailFocus) thumbnails[index].focus({ preventScroll: true });
     };
-    const go = (target, instant = false) => {
-      index = Math.max(0, Math.min(cards.length - 1, target));
-      update();
-      rail.scrollTo({ left: position(cards[index]), behavior: instant || reducedMotion.matches ? 'instant' : 'smooth' });
-    };
-    const sync = () => {
-      index = cards.reduce((nearest, card, i) => Math.abs(position(card) - rail.scrollLeft) < Math.abs(position(cards[nearest]) - rail.scrollLeft) ? i : nearest, 0);
-      update();
-    };
-    controls.classList.add('is-enhanced');
-    cards.forEach((card, i) => {
-      card.setAttribute('role', 'group');
-      card.setAttribute('aria-roledescription', '슬라이드');
-      card.setAttribute('aria-label', `${i + 1} / ${cards.length} · ${card.querySelector('h5').textContent}`);
-    });
-    prev.addEventListener('click', () => go(index - 1));
-    next.addEventListener('click', () => go(index + 1));
-    rail.addEventListener('keydown', event => {
-      if (event.target !== rail || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    gallery.classList.add('is-enhanced');
+    show(0);
+    prev.addEventListener('click', () => show(index - 1));
+    next.addEventListener('click', () => show(index + 1));
+    thumbnails.forEach((button, i) => button.addEventListener('click', () => show(i)));
+    gallery.addEventListener('keydown', event => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.target.closest('.project-details')) return;
       if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
         event.preventDefault();
-        if (event.key === 'Home') go(0);
-        else if (event.key === 'End') go(cards.length - 1);
-        else go(index + (event.key === 'ArrowRight' ? 1 : -1));
+        if (event.key === 'Home') show(0);
+        else if (event.key === 'End') show(slides.length - 1);
+        else show(index + (event.key === 'ArrowRight' ? 1 : -1));
       }
     });
-    rail.addEventListener('focusin', event => {
-      const card = event.target.closest('.collage-card');
-      if (card) go(cards.indexOf(card), true);
-    });
-    rail.addEventListener('scroll', () => {
-      clearTimeout(settling);
-      settling = setTimeout(sync, 140);
+    track.querySelectorAll('img').forEach(img => { img.draggable = false; });
+    track.addEventListener('pointerdown', event => {
+      if (event.pointerType !== 'touch' || !event.isPrimary) return;
+      gesture = { x: event.clientX, y: event.clientY, id: event.pointerId };
     }, { passive: true });
-    rail.addEventListener('scrollend', sync);
-    if ('ResizeObserver' in window) new ResizeObserver(() => go(index, true)).observe(rail);
-    update();
+    track.addEventListener('pointerup', event => {
+      if (!gesture || event.pointerId !== gesture.id) return;
+      const dx = event.clientX - gesture.x;
+      const dy = event.clientY - gesture.y;
+      gesture = null;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+        suppressClickUntil = performance.now() + 600;
+        show(index + (dx < 0 ? 1 : -1));
+      }
+    });
+    track.addEventListener('pointercancel', () => { gesture = null; });
+    track.addEventListener('click', event => {
+      if (performance.now() < suppressClickUntil) event.preventDefault();
+    }, true);
+    if ('ResizeObserver' in window) new ResizeObserver(measureCaption).observe(track);
   });
 })();
