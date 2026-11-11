@@ -471,3 +471,7 @@ main:focus,main section:focus{outline:none}
   .slider-controls button,.project-gallery-controls,.project-gallery-controls button{transition:none}
 }
 
+
+
+/* Keep the project autoplay control aligned with the photo galleries. */
+.project-gallery-controls .gallery-toggle{left:12px;top:10px;transform:none}

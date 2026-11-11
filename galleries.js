@@ -193,15 +193,38 @@
     const prev = gallery.querySelector('.gallery-prev');
     const next = gallery.querySelector('.gallery-next');
     const status = gallery.querySelector('.gallery-status');
+    const toggle = gallery.querySelector('.gallery-toggle');
+    const announcement = gallery.querySelector('.gallery-announcement');
+    const galleryName = gallery.getAttribute('aria-label') || '프로젝트';
     if (!slides.length || slides.length !== details.length) return;
     let index = 0;
     let gesture = null;
     let suppressClickUntil = 0;
+    let timer;
+    let paused = reducedMotion.matches;
+    let hovered = hoverPointer.matches && gallery.matches(':hover');
+    let visible = !('IntersectionObserver' in window);
+    let resumeWithFocus = false;
+    const updateToggle = () => {
+      if (!toggle) return;
+      toggle.setAttribute('aria-label', `${galleryName} 자동 전환 ${paused ? '재생' : '일시정지'}`);
+      toggle.title = paused ? '자동 전환 재생' : '자동 전환 일시정지';
+      toggle.firstElementChild.className = `control-icon ${paused ? 'icon-play' : 'icon-pause'}`;
+    };
+    const schedule = () => {
+      clearTimeout(timer);
+      const keyboardFocus = gallery.contains(document.activeElement) && !pointerInput;
+      const explicitResume = resumeWithFocus && document.activeElement === toggle;
+      const running = Boolean(toggle) && slides.length > 1 && !paused && !hovered && !gesture && visible && !document.hidden && (!keyboardFocus || explicitResume);
+      gallery.dataset.rotating = String(running);
+      // Project cards include longer descriptions, so allow more reading time than photos.
+      if (running) timer = setTimeout(() => show((index + 1) % slides.length, false), 8000);
+    };
     const measureCaption = () => {
       const caption = slides[index].querySelector('figcaption');
       gallery.style.setProperty('--gallery-caption-height', `${caption?.getBoundingClientRect().height || 38}px`);
     };
-    const show = target => {
+    const show = (target, manual = true) => {
       const restoreMediaFocus = slides.some(slide => slide.contains(document.activeElement));
       const restoreDetailFocus = details.some(detail => detail.contains(document.activeElement));
       const thumbnailFocus = thumbnails.includes(document.activeElement);
@@ -217,15 +240,37 @@
       status.textContent = `${index + 1} / ${slides.length}`;
       gallery.dataset.slideIndex = String(index);
       measureCaption();
-      if (restoreMediaFocus || restoreDetailFocus) track.focus({ preventScroll: true });
-      else if (thumbnailFocus) thumbnails[index].focus({ preventScroll: true });
+      if (manual && announcement) announcement.textContent = `${galleryName} ${index + 1} / ${slides.length}: ${details[index].querySelector('h5')?.textContent || ''}`;
+      if (manual && (restoreMediaFocus || restoreDetailFocus)) track.focus({ preventScroll: true });
+      else if (manual && thumbnailFocus) thumbnails[index].focus({ preventScroll: true });
+      schedule();
     };
     gallery.classList.add('is-enhanced');
-    show(0);
+    status.setAttribute('aria-live', 'off');
+    updateToggle();
+    show(0, false);
     prev.addEventListener('click', () => show(index - 1));
     next.addEventListener('click', () => show(index + 1));
     thumbnails.forEach((button, i) => button.addEventListener('click', () => show(i)));
+    toggle?.addEventListener('click', () => {
+      paused = !paused;
+      resumeWithFocus = !paused;
+      updateToggle();
+      schedule();
+    });
+    gallery.addEventListener('pointerdown', schedule);
+    gallery.addEventListener('pointerenter', event => {
+      if (event.pointerType === 'mouse' || event.pointerType === 'pen') { hovered = true; schedule(); }
+    });
+    gallery.addEventListener('pointerleave', () => { hovered = false; schedule(); });
+    gallery.addEventListener('focusin', schedule);
+    gallery.addEventListener('focusout', () => setTimeout(() => {
+      if (document.activeElement !== toggle) resumeWithFocus = false;
+      schedule();
+    }, 0));
     gallery.addEventListener('keydown', event => {
+      resumeWithFocus = false;
+      schedule();
       if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.target.closest('.project-details')) return;
       if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
         event.preventDefault();
@@ -238,6 +283,7 @@
     track.addEventListener('pointerdown', event => {
       if (event.pointerType !== 'touch' || !event.isPrimary) return;
       gesture = { x: event.clientX, y: event.clientY, id: event.pointerId };
+      schedule();
     }, { passive: true });
     track.addEventListener('pointerup', event => {
       if (!gesture || event.pointerId !== gesture.id) return;
@@ -247,13 +293,28 @@
       if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) {
         suppressClickUntil = performance.now() + 600;
         show(index + (dx < 0 ? 1 : -1));
-      }
+      } else schedule();
     });
-    track.addEventListener('pointercancel', () => { gesture = null; });
+    track.addEventListener('pointercancel', () => { gesture = null; schedule(); });
     track.addEventListener('click', event => {
       if (performance.now() < suppressClickUntil) event.preventDefault();
     }, true);
+    document.addEventListener('visibilitychange', schedule);
+    window.addEventListener('pagehide', () => { clearTimeout(timer); });
+    window.addEventListener('pageshow', schedule);
+    reducedMotion.addEventListener('change', () => {
+      if (reducedMotion.matches) paused = true;
+      updateToggle();
+      schedule();
+    });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(entries => {
+        visible = entries[0].isIntersecting && entries[0].intersectionRatio >= .2;
+        schedule();
+      }, { threshold: [0, .2] }).observe(gallery.querySelector('.project-gallery-frame'));
+    }
     if ('ResizeObserver' in window) new ResizeObserver(measureCaption).observe(track);
   });
 })();
+
 
