@@ -279,3 +279,9 @@ main:focus,main section:focus{outline:none}
 }
 @media(max-width:400px){.featured-list .project-card{padding:16px}.featured-list .card-content h3{font-size:23px}}
 @media print{.featured-list .project-card{display:grid;grid-template-columns:1fr 1.1fr;padding:5mm;gap:5mm}.featured-list .card-content{padding:0}.project-visuals{gap:3mm}}
+/* Keep both evidence images without making the visual column taller than the story. */
+@media(min-width:721px){
+ .featured-list .project-visuals .card-image.card-image-gallery{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+ .featured-list .project-visuals .project-image-panel img{aspect-ratio:1.5;height:auto;object-fit:contain}
+ .featured-list .project-visuals .project-image-caption{font-size:10px;padding:9px 8px}
+}
