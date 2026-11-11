@@ -317,7 +317,7 @@ main:focus,main section:focus{outline:none}
 .project-rail-controls button:hover:not(:disabled){background:#eaf0f8}
 .project-rail-controls button:disabled{opacity:.35;cursor:default}
 .project-rail-controls button:focus-visible,.project-rail:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
-.project-collage.project-rail{display:grid;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:86%;gap:20px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-inline:0;padding:3px 0 14px;scrollbar-width:thin;scrollbar-color:#b4c1d2 #edf1f5}
+.project-collage.project-rail{position:relative;display:grid;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:86%;gap:20px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-inline:0;padding:3px 0 14px;scrollbar-width:thin;scrollbar-color:#b4c1d2 #edf1f5}
 .project-collage.project-rail .collage-card{grid-column:auto;scroll-snap-align:start;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);align-content:start;align-items:start}
 .project-rail .collage-media{border-bottom:0;border-right:1px solid var(--line);align-self:stretch;min-width:0}
 .project-rail .collage-media>div{height:auto;min-height:216px}
