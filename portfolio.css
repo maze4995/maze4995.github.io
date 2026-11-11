@@ -285,3 +285,20 @@ main:focus,main section:focus{outline:none}
  .featured-list .project-visuals .project-image-panel img{aspect-ratio:1.5;height:auto;object-fit:contain}
  .featured-list .project-visuals .project-image-caption{font-size:10px;padding:9px 8px}
 }
+
+/* Manual evidence gallery: larger photos, a quieter architecture diagram. */
+.project-slider{min-width:0;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#f4f6f8}
+.project-slides{min-width:0}
+.project-slide{display:block}
+.project-slide[hidden]{display:none!important}
+.featured-list .project-slider .project-image-panel{display:block;border:0;border-radius:0;overflow:hidden}
+.featured-list .project-slider .project-image-panel img{display:block;width:100%;height:auto;aspect-ratio:1.65;object-fit:contain;background:#eef2f5}
+.featured-list .project-slider .project-image-caption{font-size:11px;padding:10px 12px;background:#fff}
+.slider-controls{display:flex;align-items:center;justify-content:center;gap:20px;padding:6px 12px;border-top:1px solid var(--line);background:#fff}
+.slider-controls button{display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid #d8e0e7;border-radius:50%;background:#f6f8fb;color:#294665;font:600 20px/1 system-ui;cursor:pointer;touch-action:manipulation}
+.slider-controls button:hover{background:#e7edf5}
+.slider-controls button:focus-visible,.project-slide:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
+.slider-status{min-width:42px;text-align:center;color:#465868;font:600 12px/1.5 system-ui;font-variant-numeric:tabular-nums}
+.featured-list .project-visuals .system-summary{width:84%;justify-self:center}
+@media(max-width:720px){.featured-list .project-visuals .system-summary{width:90%}}
+@media print{.slider-controls{display:none}.project-slide[hidden]{display:block!important}.featured-list .project-slider .project-image-panel img{aspect-ratio:auto;max-height:40mm}.featured-list .project-visuals .system-summary{width:84%}}
