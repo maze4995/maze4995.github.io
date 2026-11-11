@@ -427,3 +427,9 @@ main:focus,main section:focus{outline:none}
 .has-active-video .slider-controls .slider-prev,.has-active-video .slider-controls .slider-next{top:10px;transform:none;pointer-events:auto}
 .has-active-video .slider-status{top:15px;bottom:auto}
 @media print{.is-enhanced .video-start{display:none}.video-stage{height:auto;aspect-ratio:16/9}}
+
+/* Featured delivery video shares the photo preview size without clipping native controls. */
+#delivery-project-gallery{scroll-margin-top:110px}
+.featured-list .featured-video-stage{display:block;aspect-ratio:1.65;height:auto;overflow:hidden}
+.featured-list .featured-video-stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+@media print{.featured-list .featured-video-stage{height:auto;max-height:none;aspect-ratio:16/9}}
