@@ -3,6 +3,10 @@
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const hoverPointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   const interval = 4000;
+  // Pointer clicks leave focus on buttons. Only keyboard focus should suspend rotation.
+  let pointerInput = false;
+  document.addEventListener('pointerdown', () => { pointerInput = true; }, true);
+  document.addEventListener('keydown', () => { pointerInput = false; }, true);
 
   document.querySelectorAll('.project-slider').forEach(slider => {
     const slides = [...slider.querySelectorAll('.project-slide')];
@@ -21,18 +25,27 @@
     let visible = !('IntersectionObserver' in window);
     let gesture = null;
     let suppressClickUntil = 0;
+    let resumeWithFocus = false;
 
     const schedule = () => {
       clearTimeout(timer);
-      const running = !slides[index].querySelector('video') && !paused && !hovered && !gesture && visible && !document.hidden && !slider.contains(document.activeElement);
+      const keyboardFocus = slider.contains(document.activeElement) && !pointerInput;
+      const explicitResume = resumeWithFocus && document.activeElement === toggle;
+      const running = !slides[index].querySelector('video') && !paused && !hovered && !gesture && visible && !document.hidden && (!keyboardFocus || explicitResume);
       slider.dataset.rotating = String(running);
-      if (running) timer = setTimeout(() => show(index + 1), interval);
+      if (running) timer = setTimeout(() => {
+        // Keep photos rotating instead of getting stuck on an unplayed video poster.
+        // Video remains available through its thumbnail and the previous/next buttons.
+        let next = (index + 1) % slides.length;
+        while (slides[next].querySelector('video') && next !== index) next = (next + 1) % slides.length;
+        show(next);
+      }, interval);
     };
     const updateToggle = () => {
       toggle.hidden = Boolean(slides[index].querySelector('video'));
       toggle.setAttribute('aria-label', paused ? `${mediaWord} 자동 전환 재생` : `${mediaWord} 자동 전환 일시정지`);
       toggle.title = paused ? '자동 전환 재생' : '자동 전환 일시정지';
-      toggle.firstElementChild.textContent = paused ? '▶' : 'Ⅱ';
+      toggle.firstElementChild.className = `control-icon ${paused ? 'icon-play' : 'icon-pause'}`;
     };
     const updateCaptionHeight = () => {
       const caption = slides[index].querySelector('.project-image-caption');
@@ -58,8 +71,8 @@
       slider.dataset.slideIndex = String(index);
       updateCaptionHeight();
       if (manual) announcement.textContent = `${mediaWord} ${index + 1} / ${slides.length}: ${slides[index].querySelector('.project-image-caption').textContent}`;
-      if (restoreFocus) slides[index].focus({ preventScroll: true });
-      else if (thumbnailFocus) thumbnails[index].focus({ preventScroll: true });
+      if (manual && restoreFocus) slides[index].focus({ preventScroll: true });
+      else if (manual && thumbnailFocus) thumbnails[index].focus({ preventScroll: true });
       else if (toggleFocus && toggle.hidden) slider.querySelector('.slider-prev').focus({ preventScroll: true });
       schedule();
     };
@@ -104,16 +117,23 @@
     slider.querySelector('.slider-next').addEventListener('click', () => show(index + 1, true));
     toggle.addEventListener('click', () => {
       paused = !paused;
+      resumeWithFocus = !paused;
       updateToggle();
       schedule();
     });
+    slider.addEventListener('pointerdown', schedule);
     slider.addEventListener('pointerenter', event => {
       if (event.pointerType === 'mouse' || event.pointerType === 'pen') { hovered = true; schedule(); }
     });
     slider.addEventListener('pointerleave', () => { hovered = false; schedule(); });
     slider.addEventListener('focusin', schedule);
-    slider.addEventListener('focusout', () => setTimeout(schedule, 0));
+    slider.addEventListener('focusout', () => setTimeout(() => {
+      if (document.activeElement !== toggle) resumeWithFocus = false;
+      schedule();
+    }, 0));
     slider.addEventListener('keydown', event => {
+      resumeWithFocus = false;
+      schedule();
       if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.target.closest('video, .video-start, .video-slide a')) return;
       if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
         event.preventDefault();
@@ -236,3 +256,4 @@
     if ('ResizeObserver' in window) new ResizeObserver(measureCaption).observe(track);
   });
 })();
+
