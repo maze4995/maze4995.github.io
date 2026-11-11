@@ -354,3 +354,27 @@ main:focus,main section:focus{outline:none}
 @media(prefers-reduced-motion:no-preference){.project-gallery.is-enhanced .project-media-slide:not([hidden]){animation:gallery-appear .3s ease-out}@keyframes gallery-appear{from{opacity:.3;transform:translateX(12px)}to{opacity:1;transform:translateX(0)}}}
 @media(prefers-reduced-motion:reduce){.slider-controls,.carousel-thumbnails button{transition:none}.carousel-thumbnails{scroll-behavior:auto!important}}
 @media print{.project-slider .slider-controls,.project-gallery .project-gallery-controls,.is-enhanced>.carousel-thumbnails{display:none}.project-slide[hidden],.project-media-slide[hidden],.project-detail[hidden]{display:block!important}.featured-list .project-slider .project-image-panel img{aspect-ratio:auto;max-height:40mm}.secondary-columns{display:block}.project-gallery-frame{overflow:visible}.project-media-slide,.project-detail{break-inside:avoid}.project-media-track .collage-media>div,.project-media-track .denoising-preview{height:45mm}.project-details{overflow:visible}}
+
+/* Four problem-solving stories, with readable tablet and phone layouts. */
+@media screen{
+ #problem-solving .debug-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;align-items:stretch}
+ #problem-solving .debug-card{min-width:0;padding:24px 20px}
+ #problem-solving .debug-card h3{font-size:19px;line-height:1.55;min-height:3.1em;margin-bottom:20px}
+ #problem-solving .debug-card dl{display:block;margin-bottom:22px}
+ #problem-solving .debug-card dl>div{margin-bottom:18px}
+ #problem-solving .debug-card dl>div:last-child{margin-bottom:0}
+ #problem-solving .debug-card dd{font-size:13px;line-height:1.85}
+ #problem-solving .debug-card>.text-link{margin-top:auto;align-items:flex-start;gap:8px}
+ #problem-solving .measured-result{flex-wrap:wrap;gap:6px 12px;padding:14px;margin-bottom:20px}
+ #problem-solving .measured-result>strong{font-size:34px;line-height:1.2}
+ #problem-solving .measured-result>span{font-size:11px;min-width:0}
+}
+@media screen and (max-width:1100px){
+ #problem-solving .debug-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+ #problem-solving .debug-card{padding:26px 24px}
+}
+@media screen and (max-width:600px){
+ #problem-solving .debug-grid{grid-template-columns:minmax(0,1fr);gap:16px}
+ #problem-solving .debug-card{padding:24px 22px}
+ #problem-solving .debug-card h3{font-size:20px;min-height:0}
+}
