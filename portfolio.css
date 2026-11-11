@@ -244,3 +244,38 @@ main:focus,main section:focus{outline:none}
 
 .award-evidence{display:grid;grid-template-columns:1fr 1fr;gap:38px;align-items:center;margin-bottom:24px;padding:24px;background:#f1f4f7;border-radius:9px}.award-evidence figure,.activity-collage figure{margin:0;min-width:0}.award-evidence h3{font-size:25px;line-height:1.5;margin:12px 0}.award-evidence p{font-size:14px;line-height:1.9}.award-evidence .text-link{margin-top:20px}.award-photo{position:relative;aspect-ratio:1.4;overflow:hidden;background:#eee;border-radius:5px}.award-photo img{position:absolute;width:200%;max-width:none;height:auto;left:-27%;top:50%;transform:translateY(-50%) rotate(-90deg)}.award-evidence figcaption,.activity-collage figcaption{font-size:11px;color:var(--muted);line-height:1.7;margin-top:9px}.activity-collage{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;margin-bottom:18px}.activity-booklet{grid-row:span 2}.activity-booklet>div{height:100%;max-height:520px;overflow:hidden;border-radius:6px}.activity-booklet img{width:100%;height:100%;object-fit:cover;object-position:50% 28%;transform:scale(1.2)}.activity-collage>figure:not(.activity-booklet)>img{width:100%;height:210px;object-fit:contain;background:#f1f4f7;border-radius:6px}.activity-collage+.section-note{margin:40px 0 20px}@media(max-width:600px){.award-evidence{grid-template-columns:1fr;gap:16px;padding:18px}.activity-collage{grid-template-columns:1fr}.activity-booklet{grid-row:auto}.activity-booklet>div{height:400px}.activity-collage>figure:not(.activity-booklet)>img{height:auto}.activity-collage+.section-note{margin-top:20px}}
 .award-photo{aspect-ratio:0.75;max-width:340px;margin:auto}.award-photo img{width:150%;left:-68%;top:50%;transform:translateY(-50%) rotate(-90deg)}
+
+/* Reference-led featured cards: compact visual stack beside the project story. */
+.featured-list{gap:30px}
+.featured-list .project-card{grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:30px;padding:30px;align-items:start}
+.project-visuals{min-width:0;display:grid;gap:18px;align-content:start}
+.featured-list .project-visuals .card-image.card-image-gallery{padding:0;gap:10px;background:transparent;border:0;align-self:start;align-content:start;height:auto;min-height:0}
+.featured-list .project-visuals .project-image-panel{border-radius:7px}
+.featured-list .project-visuals .system-summary{margin:0}
+.project-visuals .system-summary h4{margin:0 0 9px;font-size:11px;letter-spacing:.03em}
+.featured-list .card-content{min-width:0;padding:0}
+.featured-list .card-content h3{font-size:28px;line-height:1.35}
+.featured-list .card-content>p{font-size:14px;line-height:1.9}
+.featured-list .card-facts{margin-top:24px;padding-top:0}
+.featured-list .expanded-facts>div{padding:15px 0}
+.featured-list .expanded-facts>div:first-child{padding-top:0}
+.featured-list .expanded-facts dt{font-size:12px!important}
+.featured-list .expanded-facts dd{font-size:14px!important;line-height:1.9}
+.featured-list .expanded-facts>div:last-child{margin-top:18px;border:0;padding:17px 18px;background:#f0f4fc;border-radius:8px}
+.featured-list .text-link{margin-top:12px}
+@media(max-width:900px){
+ .featured-list .project-card{gap:24px;padding:24px;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
+ .featured-list .card-content h3{font-size:24px}
+ .featured-list .expanded-facts dd{font-size:13px!important}
+}
+@media(max-width:720px){
+ .featured-list .project-card{display:flex;flex-direction:column;padding:22px;gap:24px}
+ .featured-list .project-visuals,.featured-list .card-content{width:100%}
+ .featured-list .card-content{padding:0}
+ .featured-list .card-content h3{font-size:25px}
+ .featured-list .project-visuals{gap:16px}
+ .featured-list .project-visuals .card-image{aspect-ratio:auto}
+ .featured-list .card-facts{margin-top:20px}
+}
+@media(max-width:400px){.featured-list .project-card{padding:16px}.featured-list .card-content h3{font-size:23px}}
+@media print{.featured-list .project-card{display:grid;grid-template-columns:1fr 1.1fr;padding:5mm;gap:5mm}.featured-list .card-content{padding:0}.project-visuals{gap:3mm}}
