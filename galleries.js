@@ -1,4 +1,4 @@
-/* Progressive enhancement: photo autoplay and manually browsed project cards. */
+/* Progressive enhancement: photo autoplay, click-to-play video, and project cards. */
 (() => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const hoverPointer = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -8,6 +8,8 @@
     const slides = [...slider.querySelectorAll('.project-slide')];
     if (slides.length < 2) return;
     const track = slider.querySelector('.project-slides');
+    const videos = [...slider.querySelectorAll('video')];
+    const mediaWord = videos.length ? '슬라이드' : '사진';
     const status = slider.querySelector('.slider-status');
     const thumbnails = [...slider.querySelectorAll('.photo-thumbnail')];
     const announcement = slider.querySelector('.slider-announcement');
@@ -22,12 +24,13 @@
 
     const schedule = () => {
       clearTimeout(timer);
-      const running = !paused && !hovered && !gesture && visible && !document.hidden && !slider.contains(document.activeElement);
+      const running = !slides[index].querySelector('video') && !paused && !hovered && !gesture && visible && !document.hidden && !slider.contains(document.activeElement);
       slider.dataset.rotating = String(running);
       if (running) timer = setTimeout(() => show(index + 1), interval);
     };
     const updateToggle = () => {
-      toggle.setAttribute('aria-label', paused ? '사진 자동 전환 재생' : '사진 자동 전환 일시정지');
+      toggle.hidden = Boolean(slides[index].querySelector('video'));
+      toggle.setAttribute('aria-label', paused ? `${mediaWord} 자동 전환 재생` : `${mediaWord} 자동 전환 일시정지`);
       toggle.title = paused ? '자동 전환 재생' : '자동 전환 일시정지';
       toggle.firstElementChild.textContent = paused ? '▶' : 'Ⅱ';
     };
@@ -38,8 +41,15 @@
     const show = (next, manual = false) => {
       const restoreFocus = slides.some(slide => slide.contains(document.activeElement));
       const thumbnailFocus = thumbnails.includes(document.activeElement);
+      const toggleFocus = document.activeElement === toggle;
       index = (next + slides.length) % slides.length;
-      slides.forEach((slide, i) => { slide.hidden = i !== index; });
+      slides.forEach((slide, i) => {
+        slide.hidden = i !== index;
+        const video = slide.querySelector('video');
+        if (i !== index && video && !video.paused) video.pause();
+      });
+      slider.classList.toggle('has-active-video', Boolean(slides[index].querySelector('video')));
+      updateToggle();
       thumbnails.forEach((button, i) => {
         if (i === index) button.setAttribute('aria-current', 'true');
         else button.removeAttribute('aria-current');
@@ -47,11 +57,44 @@
       status.textContent = `${index + 1} / ${slides.length}`;
       slider.dataset.slideIndex = String(index);
       updateCaptionHeight();
-      if (manual) announcement.textContent = `사진 ${index + 1} / ${slides.length}: ${slides[index].querySelector('.project-image-caption').textContent}`;
+      if (manual) announcement.textContent = `${mediaWord} ${index + 1} / ${slides.length}: ${slides[index].querySelector('.project-image-caption').textContent}`;
       if (restoreFocus) slides[index].focus({ preventScroll: true });
       else if (thumbnailFocus) thumbnails[index].focus({ preventScroll: true });
+      else if (toggleFocus && toggle.hidden) slider.querySelector('.slider-prev').focus({ preventScroll: true });
       schedule();
     };
+
+    videos.forEach(video => {
+      const slide = video.closest('.video-slide');
+      const start = slide.querySelector('.video-start');
+      const error = slide.querySelector('.video-error');
+      const label = start.querySelector('[data-video-start-label]');
+      const syncPlayback = () => {
+        const playing = !video.paused && !video.ended;
+        start.hidden = playing;
+        const text = video.ended ? '시연영상 다시 재생' : video.currentTime > 0 ? '시연영상 계속 보기' : '시연영상 재생 · 2:51';
+        label.textContent = text;
+        start.setAttribute('aria-label', text);
+        schedule();
+      };
+      start.addEventListener('click', async () => {
+        error.hidden = true;
+        try {
+          if (video.ended) video.currentTime = 0;
+          await video.play();
+          if (slide.hidden || document.hidden) video.pause();
+          else if (!video.paused && document.activeElement === start) video.focus({ preventScroll: true });
+        } catch (playError) {
+          if (!slide.hidden && playError.name !== 'AbortError') error.hidden = false;
+          syncPlayback();
+        }
+      });
+      video.addEventListener('play', syncPlayback);
+      video.addEventListener('pause', syncPlayback);
+      video.addEventListener('ended', syncPlayback);
+      video.addEventListener('error', () => { error.hidden = false; syncPlayback(); });
+      syncPlayback();
+    });
 
     slider.classList.add('is-enhanced');
     updateToggle();
@@ -71,7 +114,7 @@
     slider.addEventListener('focusin', schedule);
     slider.addEventListener('focusout', () => setTimeout(schedule, 0));
     slider.addEventListener('keydown', event => {
-      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.target.closest('video, .video-start, .video-slide a')) return;
       if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
         event.preventDefault();
         show(index + (event.key === 'ArrowRight' ? 1 : -1), true);
@@ -81,7 +124,7 @@
       }
     });
     track.addEventListener('pointerdown', event => {
-      if (event.pointerType !== 'touch' || !event.isPrimary) return;
+      if (event.pointerType !== 'touch' || !event.isPrimary || event.target.closest('.video-stage')) return;
       gesture = { x: event.clientX, y: event.clientY, id: event.pointerId };
       schedule();
     }, { passive: true });
@@ -99,8 +142,14 @@
     track.addEventListener('click', event => {
       if (performance.now() < suppressClickUntil) event.preventDefault();
     }, true);
-    document.addEventListener('visibilitychange', schedule);
-    window.addEventListener('pagehide', () => clearTimeout(timer));
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) videos.forEach(video => { if (!video.paused) video.pause(); });
+      schedule();
+    });
+    window.addEventListener('pagehide', () => {
+      clearTimeout(timer);
+      videos.forEach(video => { if (!video.paused) video.pause(); });
+    });
     window.addEventListener('pageshow', schedule);
     reducedMotion.addEventListener('change', () => {
       if (reducedMotion.matches) paused = true;
