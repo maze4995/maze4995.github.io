@@ -475,3 +475,17 @@ main:focus,main section:focus{outline:none}
 
 /* Keep the project autoplay control aligned with the photo galleries. */
 .project-gallery-controls .gallery-toggle{left:12px;top:10px;transform:none}
+
+
+/* CES activity photos sit below the activity copy, with full-frame previews. */
+#activities .activity-list li>div{min-width:0}
+.ces-collage{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:24px}
+.ces-collage figure{min-width:0;margin:0}
+.activity-list .ces-collage a{display:flex;align-items:center;justify-content:center;width:100%;height:300px;margin:0;overflow:hidden;border:1px solid var(--line);border-radius:6px;background:#f1f4f7}
+.ces-collage img{display:block;width:100%;height:100%;object-fit:contain}
+.ces-collage figcaption{margin-top:9px;font-size:11px;line-height:1.7;color:var(--muted)}
+.activity-list .ces-collage a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+@media(max-width:900px){.ces-collage{gap:12px}.activity-list .ces-collage a{height:250px}}
+@media(max-width:700px){.ces-collage{grid-template-columns:minmax(0,1fr);gap:20px}.activity-list .ces-collage a{height:360px}}
+@media(max-width:400px){.activity-list .ces-collage a{height:320px}}
+@media print{.ces-collage{grid-template-columns:repeat(3,minmax(0,1fr));gap:3mm;break-inside:avoid}.activity-list .ces-collage a{height:48mm}.ces-collage figcaption{font-size:8pt}}
